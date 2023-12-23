@@ -1,0 +1,39 @@
+name: Issue Forms Dropdown Options
+description: Populates options for a version dropdown issue forms element
+author: ShaMan123
+branding:
+  icon: list
+  color: purple
+inputs:
+  ref:
+    description: Github ref/branch to checkout, inferred from the event type if omitted
+    type: string
+  checkout:
+    description: When set to `false` will not perform checkout
+    default: true
+    type: boolean
+outputs:
+  ref:
+    description: Github ref/branch checked out and updated by the action
+    value: ${{ env.job_ref }}
+runs:
+  using: composite
+  steps:
+    # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-environment-variable
+    - run: echo "Setting branch for committing"
+      shell: bash
+    - run: echo "job_ref=${{ github.ref }}" >> $GITHUB_ENV
+      shell: bash
+    - run: echo "job_ref=${{ github.head_ref }}" >> $GITHUB_ENV
+      if: ${{ github.event_name == 'pull_request' }}
+      shell: bash
+    - run: echo "job_ref=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
+      if: ${{ github.event_name == 'release' }}
+      shell: bash
+    - run: echo "job_ref=${{ inputs.ref }}" >> $GITHUB_ENV
+      if: ${{ inputs.ref }}
+      shell: bash
+    - uses: actions/checkout@v3
+      if: ${{ inputs.checkout }}
+      with:
+        ref: ${{ env.job_ref }}

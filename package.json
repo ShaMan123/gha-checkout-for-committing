@@ -1,0 +1,29 @@
+{
+  "name": "gha-checkout-for-committing",
+  "version": "0.0.1",
+  "description": "A github action checking out the correct branch for committing",
+  "license": "MIT",
+  "author": "ShaMan123",
+  "repository": "https://github.com/ShaMan123/gha-checkout-for-committing",
+  "type": "module",
+  "keywords": [
+    "actions",
+    "commit",
+    "checkout"
+  ],
+  "scripts": {
+    "format": "prettier --write src/*.js src/**/*.js"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "singleQuote": true,
+    "tabWidth": 2
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/sponsors/ShaMan123"
+  }
+}
